@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "common.h"
 #include "ship.h"
 
 typedef enum _status {
@@ -23,11 +24,6 @@ const int _shipLength[NUM_SHIPS] = {
   3,
   2
 };
-
-typedef struct _position {
-  int column;
-  int row;
-} POSITION;
 
 typedef struct _ship {
   SHIPTYPE type;
@@ -198,8 +194,7 @@ int setup_fleet(
 }
 
 int shootOnShip(
-          const int row,
-          const int column,
+          const POSITION position,
           const FLEET* fleet,
           int* isHit
 ) {
@@ -212,7 +207,7 @@ int shootOnShip(
 
     for (shipID = 0; shipID < fleet->numShips; shipID++) {
       for (posID = 0; posID < fleet->ships[shipID].length; posID++) {
-        if ((row == fleet->ships[shipID].positions[posID].row) && (column == fleet->ships[shipID].positions[posID].column)) {
+        if ((position.row == fleet->ships[shipID].positions[posID].row) && (position.column == fleet->ships[shipID].positions[posID].column)) {
           *isHit = 1;
         }
       }

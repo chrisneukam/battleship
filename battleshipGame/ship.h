@@ -16,8 +16,7 @@ int setup_fleet(
 );
 
 int shootOnShip(
-  const int row,
-  const int column,
+  const POSITION position,
   const FLEET* fleet,
   int* isHit
 );

@@ -1,5 +1,7 @@
 #include <stdio.h>
+#include "common.h"
 #include "ship.h"
+#include "ai.h"
 
 static void showSplash(void
 ) {
@@ -30,22 +32,20 @@ static int playGame(
   int error = 0;
   int isHit = 0;
   int exit = 0;
-  int row = 0;
-  int column = 0;
+  POSITION position;
 
   while (0 == exit) {
     printf("\n===============================================================================\n\n");
     printf("Player, it's your turn.\n");
 
-    row = 1;
-    column = 1;
+    position.row = 1;
+    position.column = 1;
 
-    shootOnShip(row,
-                column,
+    shootOnShip(position,
                 player_fleet,
                 &isHit);
 
-    printf(">> You shoot in %d %d and: ", row, column);
+    printf(">> You shoot in %d %d and: ", position.row, position.column);
     if (0 != isHit) {
       printf("Yeah! Nice hit!\n\n");
       showHit();
@@ -53,15 +53,13 @@ static int playGame(
       printf("Miss\n");
     }
 
-    row = 1;
-    column = 8;
+    ki_getShootPosition(&position);
 
-    shootOnShip(row,
-                column,
+    shootOnShip(position,
                 player_fleet,
                 &isHit);
 
-    printf(">> CPU shoot in %d %d and ", row, column);
+    printf(">> CPU shoot in %d %d and ", position.row, position.column);
     if (0 != isHit) {
       printf("hit your ship!\n\n");
       showHit();
