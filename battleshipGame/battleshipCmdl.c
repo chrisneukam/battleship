@@ -3,7 +3,8 @@
 #include "ship.h"
 #include "ai.h"
 
-static void showSplash(void
+static void showSplash(
+  void
 ) {
   printf("   __                __    __    ___                   __                    \n");
   printf("  /\\ \\              /\\ \\__/\\ \\__/\\_ \\                 /\\ \\      __           \n");
@@ -16,7 +17,8 @@ static void showSplash(void
   printf("                                                                 v1.0.0 \\/_/ \n\n");
 }
 
-static void showHit(void
+static void showHit(
+  void
 ) {
   printf("                    .#####....####....####...##...##.\n");
   printf("                    .##..##..##..##..##..##..###.###.\n");
@@ -26,8 +28,8 @@ static void showHit(void
 }
 
 static int playGame(
-          FLEET* player_fleet,
-          FLEET* cpu_fleet
+  FLEET* player_fleet,
+  FLEET* cpu_fleet
 ) {
   int error = 0;
   int isHit = 0;
@@ -53,7 +55,7 @@ static int playGame(
       printf("Miss\n");
     }
 
-    ki_getShootPosition(&position);
+    ai_getShootPosition(&position);
 
     shootOnShip(position,
                 player_fleet,
@@ -73,7 +75,9 @@ static int playGame(
   return error;
 }
 
-int main(int argc, char* argv[]
+int main(
+  int argc,
+  char* argv[]
 ) {
   int error = 0;
   FLEET* player_fleet = NULL;

@@ -4,15 +4,15 @@
 #include "ship.h"
 #include "ai.h"
 
-int test_ki_getShootPosition(
-          void
+int test_ai_getShootPosition(
+  void
 ) {
   TESTRESULT error = OK;
   POSITION position;
   int run = 0;
 
   for (run = 0; run < 100000000; run++) {
-    ki_getShootPosition(&position);
+    ai_getShootPosition(&position);
 
     if (position.row < 0 || position.row > 7) {
       error = FAIL;

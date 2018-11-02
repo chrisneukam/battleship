@@ -1,7 +1,7 @@
-#ifndef _KI_H_
-#define _KI_H
+#ifndef _AI_H_
+#define _AI_H
 
-int ki_getShootPosition(
+int ai_getShootPosition(
   POSITION* position
 );
 

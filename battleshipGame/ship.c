@@ -38,9 +38,9 @@ struct _fleet {
 };
 
 static int initialize_ship(
-          const SHIPTYPE shipType,
-          const int shipLength,
-          SHIP* ship
+  const SHIPTYPE shipType,
+  const int shipLength,
+  SHIP* ship
 ) {
   int error = 0;
 
@@ -53,7 +53,7 @@ static int initialize_ship(
       ship->status = UNSET;
     } else {
       error = 1;
-    } 
+    }
   } else {
     error = 1;
   }
@@ -62,7 +62,7 @@ static int initialize_ship(
 }
 
 static int free_ship(
-          SHIP* ship
+  SHIP* ship
 ) {
   int error = 0;
 
@@ -81,9 +81,9 @@ static int free_ship(
 }
 
 static int setPosition(
-          POSITION* position,
-          const int row,
-          const int column
+  POSITION* position,
+  const int row,
+  const int column
 ) {
   int error = 0;
 
@@ -98,7 +98,7 @@ static int setPosition(
 }
 
 int initialize_fleet(
-          FLEET** fleet
+  FLEET** fleet
 ) {
   int error = 0;
   SHIPTYPE shipID = CARRIER;
@@ -130,7 +130,7 @@ int initialize_fleet(
 }
 
 int free_fleet(
-          FLEET** fleet
+  FLEET** fleet
 ) {
   int error = 0;
   SHIPTYPE shipID = CARRIER;
@@ -155,7 +155,7 @@ int free_fleet(
 }
 
 int setup_fleet(
-          FLEET* fleet
+  FLEET* fleet
 ) {
   int error = 0;
 
@@ -194,9 +194,9 @@ int setup_fleet(
 }
 
 int shootOnShip(
-          const POSITION position,
-          const FLEET* fleet,
-          int* isHit
+  const POSITION position,
+  const FLEET* fleet,
+  int* isHit
 ) {
   int error = 0;
   int shipID = 0;

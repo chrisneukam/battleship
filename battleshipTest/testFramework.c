@@ -5,7 +5,7 @@ static int testCnt = 0;
 static int testFailedCnt = 0;
 
 void init_test(
-          const char* functionName
+  const char* functionName
 ) {
   fprintf(stdout, "===============================================================================\n");
   fprintf(stdout, "run test %s\n", functionName);
@@ -14,8 +14,8 @@ void init_test(
 }
 
 void eval_test(
-          const TESTRESULT testResult,
-          const char* functionName
+  const TESTRESULT testResult,
+  const char* functionName
 ) {
   if (FAIL == testResult) {
     fprintf(stderr, "\tFAIL: %s returns %d\n", functionName, testResult);
@@ -24,8 +24,8 @@ void eval_test(
 }
 
 TESTRESULT run_test(
-          const int testResult,
-          const char* functionName
+  const int testResult,
+  const char* functionName
 ) {
   TESTRESULT result = OK;
   init_test(functionName);
@@ -42,7 +42,7 @@ TESTRESULT run_test(
 }
 
 void printStatistic(
-          void
+  void
 ) {
   fprintf(stdout, "===============================================================================\n\n");
 

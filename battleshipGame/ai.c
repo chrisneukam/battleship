@@ -3,8 +3,8 @@
 #include "common.h"
 #include "ai.h"
 
-int ki_getShootPosition(
-          POSITION* position
+int ai_getShootPosition(
+  POSITION* position
 ) {
   int error = 0;
 
