@@ -16,10 +16,13 @@ set_target_properties (battleshipCmdl PROPERTIES
 )
 
 add_executable(testGameCmdl
+  battleshipTest/testFramework.c
   battleshipTest/testGameCmdl.c
+  battleshipTest/unittests.c
   battleshipGame/ship.c
   battleshipGame/ai.c
 )
+target_include_directories(testGameCmdl PRIVATE "${PROJECT_SOURCE_DIR}/battleshipTest")
 set_target_properties (testGameCmdl PROPERTIES
   FOLDER Executables
 )
