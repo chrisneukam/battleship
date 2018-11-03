@@ -5,4 +5,8 @@ int test_ai_getShootPosition(
   void
 );
 
+int test_randomGen_rand(
+  void
+);
+
 #endif

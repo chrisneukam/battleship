@@ -10,6 +10,8 @@ int main(
 
   error = run_test(test_ai_getShootPosition(), "test_ai_getShootPosition()");
 
+  error = run_test(test_randomGen_rand(), "test_randomGen_rand()");
+
   printStatistic();
 
   return (int)error;
