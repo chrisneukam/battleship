@@ -29,7 +29,8 @@ static void showHit(
 
 static int playGame(
   FLEET* player_fleet,
-  FLEET* cpu_fleet
+  FLEET* cpu_fleet,
+  AI* cpu_ai
 ) {
   int error = 0;
   int isHit = 0;
@@ -55,7 +56,8 @@ static int playGame(
       printf("Miss\n");
     }
 
-    ai_getShootPosition(&position);
+    ai_getShootPosition(&position,
+                        cpu_ai);
 
     shootOnShip(position,
                 player_fleet,
@@ -82,20 +84,24 @@ int main(
   int error = 0;
   FLEET* player_fleet = NULL;
   FLEET* cpu_fleet = NULL;
+  AI* cpu_ai = NULL;
 
   showSplash();
 
   initialize_fleet(&player_fleet);
   initialize_fleet(&cpu_fleet);
+  initialize_ai(&cpu_ai);
 
   setup_fleet(player_fleet);
   setup_fleet(cpu_fleet);
 
   playGame(player_fleet,
-           cpu_fleet);
+           cpu_fleet,
+           cpu_ai);
 
   free_fleet(&player_fleet);
   free_fleet(&cpu_fleet);
+  free_ai(&cpu_ai);
 
   return error;
 }

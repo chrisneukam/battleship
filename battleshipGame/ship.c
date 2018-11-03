@@ -141,7 +141,6 @@ int free_fleet(
     }
 
     free((*fleet)->ships);
-
     (*fleet)->ships = NULL;
     (*fleet)->numShips = 0;
 

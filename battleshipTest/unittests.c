@@ -8,22 +8,48 @@ int test_ai_getShootPosition(
   void
 ) {
   TESTRESULT error = OK;
-  POSITION position;
+  POSITION position[NUM_POSITIONS_ON_FIELD] = {0};
+  AI* cpu_ai = 0;
   int run = 0;
+  int run2 = 0;
+  int cnt = 0;
 
-  for (run = 0; run < 100000000; run++) {
-    ai_getShootPosition(&position);
+  initialize_ai(&cpu_ai);
 
-    if (position.row < 0 || position.row > 7) {
+  for (run = 0; run < NUM_POSITIONS_ON_FIELD; run++) {
+    ai_getShootPosition(&position[run],
+                        cpu_ai);
+
+    if (position[run].row < POSITION_MIN || position[run].row > POSITION_MAX) {
       error = FAIL;
       break;
     }
 
-    if (position.column < 0 || position.column > 7) {
+    if (position[run].column < POSITION_MIN || position[run].column > POSITION_MAX) {
       error = FAIL;
       break;
     }
   }
+
+  for (run = 0; run < NUM_POSITIONS_ON_FIELD; run++) {
+    for (run2 = run; run2 < NUM_POSITIONS_ON_FIELD; run2++) {
+      if ((position[run].row == position[run2].row) && (position[run].column == position[run2].column) && (run != run2)) {
+        cnt++;
+      }
+    }
+
+    if (cnt > 0) {
+      break;
+    }
+
+    cnt = 0;
+  }
+
+  if (cnt > 0) {
+    error = FAIL;
+  }
+
+  free_ai(&cpu_ai);
 
   return (int)error;
 }
