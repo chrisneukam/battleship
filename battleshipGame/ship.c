@@ -37,7 +37,7 @@ struct _fleet {
   int numShips;
 };
 
-static int initialize_ship(
+static int ship_initialize(
   const SHIPTYPE shipType,
   const int shipLength,
   SHIP* ship
@@ -61,7 +61,7 @@ static int initialize_ship(
   return error;
 }
 
-static int free_ship(
+static int ship_free(
   SHIP* ship
 ) {
   int error = 0;
@@ -97,7 +97,7 @@ static int setPosition(
   return error;
 }
 
-int initialize_fleet(
+int fleet_initialize(
   FLEET** fleet
 ) {
   int error = 0;
@@ -113,7 +113,7 @@ int initialize_fleet(
       fleet_init->numShips = NUM_SHIPS;
 
       for (shipID = CARRIER; shipID < NUM_SHIPS; shipID++) {
-        initialize_ship(shipID,
+        ship_initialize(shipID,
                         _shipLength[shipID],
                         &fleet_init->ships[shipID]);
       }
@@ -129,7 +129,7 @@ int initialize_fleet(
   return error;
 }
 
-int free_fleet(
+int fleet_free(
   FLEET** fleet
 ) {
   int error = 0;
@@ -137,7 +137,7 @@ int free_fleet(
 
   if (NULL != *fleet) {
     for (shipID = CARRIER; shipID < (*fleet)->numShips; shipID++) {
-      free_ship(&(*fleet)->ships[shipID]);
+      ship_free(&(*fleet)->ships[shipID]);
     }
 
     free((*fleet)->ships);
@@ -153,7 +153,7 @@ int free_fleet(
   return error;
 }
 
-int setup_fleet(
+int fleet_setup(
   FLEET* fleet
 ) {
   int error = 0;

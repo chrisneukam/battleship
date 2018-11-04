@@ -19,7 +19,7 @@ static int greatestCommonDivisor(
   }
 }
 
-int initialize_ranndomGen(
+int ranndomGen_initialize(
   RANDOMGENERATOR** radnomGenerator,
   const int length
 ) {
@@ -62,7 +62,7 @@ int initialize_ranndomGen(
   return error;
 }
 
-int free_randomGen(
+int randomGen_free(
   RANDOMGENERATOR** radnomGenerator
 ) {
   int error = 0;
@@ -80,7 +80,12 @@ int free_randomGen(
 int randomGen_rand(
   RANDOMGENERATOR* radnomGenerator
 ) {
-  radnomGenerator->idx = (radnomGenerator->idx + radnomGenerator->offset) % radnomGenerator->length;
+  int returnValue = 0;
 
-  return radnomGenerator->idx;
+  if (NULL != radnomGenerator) {
+    radnomGenerator->idx = (radnomGenerator->idx + radnomGenerator->offset) % radnomGenerator->length;
+    returnValue = radnomGenerator->idx;
+  }
+
+  return returnValue;
 }

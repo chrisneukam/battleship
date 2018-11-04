@@ -8,7 +8,9 @@ int main(
 ) {
   TESTRESULT error = 0;
 
-  error = run_test(test_ai_getShootPosition(), "test_ai_getShootPosition()");
+  error = run_test(test_ai_getShootPosition_range(), "test_ai_getShootPosition_range()");
+
+  error = run_test(test_ai_getShootPosition_unique(), "test_ai_getShootPosition_unique()");
 
   error = run_test(test_randomGen_rand(), "test_randomGen_rand()");
 

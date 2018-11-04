@@ -3,11 +3,11 @@
 
 typedef struct _ai AI;
 
-int initialize_ai(
+int ai_initialize(
   AI** cpuAI
 );
 
-int free_ai(
+int ai_free(
   AI** cpuAI
 );
 

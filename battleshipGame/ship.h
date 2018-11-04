@@ -3,15 +3,15 @@
 
 typedef struct _fleet FLEET;
 
-int initialize_fleet(
+int fleet_initialize(
   FLEET** fleet
 );
 
-int free_fleet(
+int fleet_free(
   FLEET** fleet
 );
 
-int setup_fleet(
+int fleet_setup(
   FLEET* fleet
 );
 

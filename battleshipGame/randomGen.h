@@ -7,12 +7,12 @@ int randomGen_rand(
   RANDOMGENERATOR* radnomGenerator
 );
 
-int initialize_ranndomGen(
+int ranndomGen_initialize(
   RANDOMGENERATOR** radnomGenerator,
   const int length
 );
 
-int free_randomGen(
+int randomGen_free(
   RANDOMGENERATOR** radnomGenerator
 );
 

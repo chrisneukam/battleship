@@ -14,7 +14,46 @@ struct _ai {
   RANDOMGENERATOR* radnomGenerator;
 };
 
-static int randomPosition(
+static POSITION _assemblePosition(
+  const int row,
+  const int column
+) {
+  POSITION position;
+
+  position.row = row;
+  position.column = column;
+
+  return position;
+}
+
+static int _initializePositionMemory(
+  POSITIONMEMORY* positionMemory,
+  const int nRows,
+  const int nColumns
+) {
+  int error = 0;
+  int row = 0;
+  int col = 0;
+  int pos = 0;
+
+  if (NULL != positionMemory) {
+    if (nRows * nColumns == positionMemory->size) {
+      for (row = 0; row < nRows; row++) {
+        for (col = 0; col < nColumns; col++) {
+          positionMemory->memory[pos++] = _assemblePosition(row, col);
+        }
+      }
+    } else {
+      error = 1;
+    }
+  } else {
+    error = 1;
+  }
+  
+  return error;
+}
+
+static int _getRandomPosition(
   POSITION* position,
   RANDOMGENERATOR* radnomGenerator,
   const POSITIONMEMORY* positionMemory
@@ -22,7 +61,7 @@ static int randomPosition(
   int error = 0;
   int idx = 0;
 
-  if ((NULL != position) && (NULL != radnomGenerator) &&(NULL !=positionMemory)) {
+  if ((NULL != position) && (NULL != radnomGenerator) && (NULL != positionMemory)) {
     idx = randomGen_rand(radnomGenerator);
 
     if ((idx >= 0) && idx < (positionMemory->size)) {
@@ -37,46 +76,7 @@ static int randomPosition(
   return error;
 }
 
-static POSITION assemblePosition(
-  const int row,
-  const int column
-) {
-  POSITION position;
-
-  position.row = row;
-  position.column = column;
-
-  return position;
-}
-
-static int setDefaultPositions(
-  POSITIONMEMORY* positionMemory,
-  const int nRows,
-  const int nColumns
-) {
-  int error = 0;
-  int row = 0;
-  int col = 0;
-  int pos = 0;
-
-  if (NULL != positionMemory) {
-    if (nRows * nColumns == positionMemory->size) {
-      for (row = 0; row < nRows; row++) {
-        for (col = 0; col < nColumns; col++) {
-          positionMemory->memory[pos++] = assemblePosition(row, col);
-        }
-      }
-    } else {
-      error = 1;
-    }
-  } else {
-    error = 1;
-  }
-  
-  return error;
-}
-
-int initialize_ai(
+int ai_initialize(
   AI** cpuAI
 ) {
   int error = 0;
@@ -89,17 +89,23 @@ int initialize_ai(
     cpuAI_init->positionMemory.size = NUM_POSITIONS_ON_FIELD;
     cpuAI_init->positionMemoryPointer = 0;
 
-    setDefaultPositions(&cpuAI_init->positionMemory,
-                        POSITION_MAX + 1,
-                        POSITION_MAX + 1);
-
-    initialize_ranndomGen(&cpuAI_init->radnomGenerator,
-                          cpuAI_init->positionMemory.size);
-
-    if (NULL != cpuAI_init->positionMemory.memory) {
-      *cpuAI = cpuAI_init;
-    } else {
+    if (NULL == cpuAI_init->positionMemory.memory) {
       error = 1;
+    }
+
+    if (0 == error) {
+      error = _initializePositionMemory(&cpuAI_init->positionMemory,
+                                        POSITION_MAX + 1,
+                                        POSITION_MAX + 1);
+    }
+
+    if (0 == error) {
+      error = ranndomGen_initialize(&cpuAI_init->radnomGenerator,
+                                    cpuAI_init->positionMemory.size);
+    }
+
+    if (0 == error) {
+      *cpuAI = cpuAI_init;
     }
   } else {
     error = 1;
@@ -108,7 +114,7 @@ int initialize_ai(
   return error;
 }
 
-int free_ai(
+int ai_free(
   AI** cpuAI
 ) {
   int error = 0;
@@ -120,7 +126,7 @@ int free_ai(
       (*cpuAI)->positionMemory.size = 0;
       (*cpuAI)->positionMemoryPointer = 0;
 
-      free_randomGen(&(*cpuAI)->radnomGenerator);
+      error = randomGen_free(&(*cpuAI)->radnomGenerator);
 
       free(*cpuAI);
       *cpuAI = NULL;
@@ -141,9 +147,9 @@ int ai_getShootPosition(
   int error = 0;
 
   if ((NULL != position) && (NULL != cpuAI)) {
-    randomPosition(position,
-                   cpuAI->radnomGenerator,
-                   &cpuAI->positionMemory);
+    error = _getRandomPosition(position,
+                               cpuAI->radnomGenerator,
+                               &cpuAI->positionMemory);
   } else {
     error = 1;
   }

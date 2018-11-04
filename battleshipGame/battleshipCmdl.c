@@ -88,20 +88,20 @@ int main(
 
   showSplash();
 
-  initialize_fleet(&player_fleet);
-  initialize_fleet(&cpu_fleet);
-  initialize_ai(&cpu_ai);
+  fleet_initialize(&player_fleet);
+  fleet_initialize(&cpu_fleet);
+  ai_initialize(&cpu_ai);
 
-  setup_fleet(player_fleet);
-  setup_fleet(cpu_fleet);
+  fleet_setup(player_fleet);
+  fleet_setup(cpu_fleet);
 
   playGame(player_fleet,
            cpu_fleet,
            cpu_ai);
 
-  free_fleet(&player_fleet);
-  free_fleet(&cpu_fleet);
-  free_ai(&cpu_ai);
+  fleet_free(&player_fleet);
+  fleet_free(&cpu_fleet);
+  ai_free(&cpu_ai);
 
   return error;
 }
