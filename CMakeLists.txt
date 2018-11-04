@@ -7,9 +7,10 @@ project (battleship)
 include_directories("${PROJECT_SOURCE_DIR}/battleshipGame")
 
 add_library(batlleshipGameLib
-  battleshipGame/ship.c
   battleshipGame/ai.c
+  battleshipGame/position.c
   battleshipGame/randomGen.c
+  battleshipGame/ship.c
 )
 set_target_properties (batlleshipGameLib PROPERTIES
   FOLDER Libraries

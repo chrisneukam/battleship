@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "common.h"
 #include "ai.h"
+#include "position.h"
 #include "randomGen.h"
 
 typedef struct _positionMemory {
@@ -13,18 +14,6 @@ struct _ai {
   int positionMemoryPointer;
   RANDOMGENERATOR* radnomGenerator;
 };
-
-static POSITION _assemblePosition(
-  const int row,
-  const int column
-) {
-  POSITION position;
-
-  position.row = row;
-  position.column = column;
-
-  return position;
-}
 
 static int _initializePositionMemory(
   POSITIONMEMORY* positionMemory,
@@ -40,7 +29,7 @@ static int _initializePositionMemory(
     if (nRows * nColumns == positionMemory->size) {
       for (row = 0; row < nRows; row++) {
         for (col = 0; col < nColumns; col++) {
-          positionMemory->memory[pos++] = _assemblePosition(row, col);
+          positionMemory->memory[pos++] = createPosition(row, col);
         }
       }
     } else {

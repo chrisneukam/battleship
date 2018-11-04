@@ -1,7 +1,8 @@
 #include <stdio.h>
-#include "common.h"
-#include "ship.h"
 #include "ai.h"
+#include "common.h"
+#include "position.h"
+#include "ship.h"
 
 static void showSplash(
   void

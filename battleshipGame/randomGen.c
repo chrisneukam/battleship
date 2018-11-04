@@ -8,14 +8,14 @@ struct _randomGen {
   int length;
 };
 
-static int greatestCommonDivisor(
+static int _greatestCommonDivisor(
   int m,
   int n
 ) {
   if (0 == n) {
     return m;
   } else {
-    return greatestCommonDivisor(n, m % n);
+    return _greatestCommonDivisor(n, m % n);
   }
 }
 
@@ -45,8 +45,8 @@ int ranndomGen_initialize(
       /* generate secret number between length/4 and length*3/4: */
       radnomGenerator_init->offset = rand() % (radnomGenerator_init->length >> 2) + ((3 * radnomGenerator_init->length) >> 2);
 
-      gcd = greatestCommonDivisor(radnomGenerator_init->length,
-                                  radnomGenerator_init->offset);
+      gcd = _greatestCommonDivisor(radnomGenerator_init->length,
+                                   radnomGenerator_init->offset);
 
       /* offset is valid if the greatest common divisor equals 1! */
       if (1 != gcd) {
@@ -88,4 +88,11 @@ int randomGen_rand(
   }
 
   return returnValue;
+}
+
+int randomGen_gcd(
+  const int valueX,
+  const int valueY
+) {
+  return _greatestCommonDivisor(valueX, valueY);
 }

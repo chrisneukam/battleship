@@ -3,10 +3,6 @@
 
 typedef struct _randomGen RANDOMGENERATOR;
 
-int randomGen_rand(
-  RANDOMGENERATOR* radnomGenerator
-);
-
 int ranndomGen_initialize(
   RANDOMGENERATOR** radnomGenerator,
   const int length
@@ -14,6 +10,15 @@ int ranndomGen_initialize(
 
 int randomGen_free(
   RANDOMGENERATOR** radnomGenerator
+);
+
+int randomGen_rand(
+  RANDOMGENERATOR* radnomGenerator
+);
+
+int randomGen_gcd(
+  const int valueX,
+  const int valueY
 );
 
 #endif

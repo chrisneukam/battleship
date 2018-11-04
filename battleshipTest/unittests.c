@@ -1,10 +1,39 @@
 #include <stdlib.h>
 #include "testFramework.h"
 #include "unittests.h"
-#include "common.h"
-#include "ship.h"
 #include "ai.h"
+#include "common.h"
+#include "position.h"
 #include "randomGen.h"
+#include "ship.h"
+
+int test_position_create(
+  void
+) {
+  TESTRESULT result = OK;
+  POSITION position = {0};
+
+  position = createPosition(5, 3);
+  if (5 != position.row || 3 != position.column) {
+    result = FAIL;
+  }
+
+  return result;
+}
+
+int test_randomGen_gcd(
+  void
+) {
+  TESTRESULT result = OK;
+  int gcd = 0;
+
+  gcd = randomGen_gcd(81, 153);
+  if (9 != gcd) {
+    result = FAIL;
+  }
+
+  return (int)result;
+}
 
 int test_randomGen_rand(
   void
@@ -145,4 +174,28 @@ int test_ai_getShootPosition_unique(
   }
 
   return (int)result;
+}
+
+int test_ship_collision_TRUE(
+  void
+) {
+  TESTRESULT result = FAIL;
+
+  /* set 2 ships with collision */
+
+  /* test for collision */
+
+  return result;
+}
+
+int test_ship_collision_FALSE(
+  void
+  ) {
+  TESTRESULT result = FAIL;
+
+  /* set 2 ships with collision */
+
+  /* test for collision */
+
+  return result;
 }

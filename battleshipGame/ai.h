@@ -1,6 +1,8 @@
 #ifndef _AI_H_
 #define _AI_H_
 
+#include "position.h"
+
 typedef struct _ai AI;
 
 int ai_initialize(

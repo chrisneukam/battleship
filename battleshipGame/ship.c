@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "common.h"
+#include "position.h"
 #include "ship.h"
 
 typedef enum _status {
@@ -7,15 +8,6 @@ typedef enum _status {
   SET,
   SUNK
 } STATUS;
-
-typedef enum _shipType {
-  CARRIER,
-  BATTLESHIP,
-  CRUISER,
-  SUBMARINE,
-  DESTROYER,
-  NUM_SHIPS
-} SHIPTYPE;
 
 const int _shipLength[NUM_SHIPS] = {
   5,
@@ -80,23 +72,6 @@ static int ship_free(
   return error;
 }
 
-static int setPosition(
-  POSITION* position,
-  const int row,
-  const int column
-) {
-  int error = 0;
-
-  if (NULL != position) {
-    position->row = row;
-    position->column = column;
-  } else {
-    error = 1;
-  }
-
-  return error;
-}
-
 int fleet_initialize(
   FLEET** fleet
 ) {
@@ -153,37 +128,65 @@ int fleet_free(
   return error;
 }
 
+int fleet_setShip(
+  FLEET* fleet,
+  const SHIPTYPE shipType,
+  const POSITION* positions,
+  const int positionLength
+) {
+  int error = 0;
+  int idx = 0;
+
+  if (NULL != fleet && NULL != positions) {
+    if (_shipLength[shipType] != positionLength) {
+      error = 1;
+    }
+
+    if (0 == error) {
+      for (idx = 0; idx < positionLength; idx++) {
+        fleet->ships[shipType].positions[idx] = positions[idx];
+      }
+
+      fleet->ships[shipType].status = SET;
+    }
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
 int fleet_setup(
   FLEET* fleet
 ) {
   int error = 0;
 
   if (NULL != fleet) {
-    setPosition(&fleet->ships[0].positions[0], 0, 1);
-    setPosition(&fleet->ships[0].positions[1], 1, 1);
-    setPosition(&fleet->ships[0].positions[2], 2, 1);
-    setPosition(&fleet->ships[0].positions[3], 3, 1);
-    setPosition(&fleet->ships[0].positions[4], 4, 1);
+    fleet->ships[0].positions[0] = createPosition(0, 1);
+    fleet->ships[0].positions[1] = createPosition(1, 1);
+    fleet->ships[0].positions[2] = createPosition(2, 1);
+    fleet->ships[0].positions[3] = createPosition(3, 1);
+    fleet->ships[0].positions[4] = createPosition(4, 1);
     fleet->ships[0].status = SET;
 
-    setPosition(&fleet->ships[1].positions[0], 3, 3);
-    setPosition(&fleet->ships[1].positions[1], 3, 4);
-    setPosition(&fleet->ships[1].positions[2], 3, 5);
-    setPosition(&fleet->ships[1].positions[3], 3, 6);
+    fleet->ships[1].positions[0] = createPosition(3, 3);
+    fleet->ships[1].positions[1] = createPosition(3, 4);
+    fleet->ships[1].positions[2] = createPosition(3, 5);
+    fleet->ships[1].positions[3] = createPosition(3, 6);
     fleet->ships[1].status = SET;
 
-    setPosition(&fleet->ships[2].positions[0], 6, 5);
-    setPosition(&fleet->ships[2].positions[1], 7, 5);
-    setPosition(&fleet->ships[2].positions[2], 8, 5);
+    fleet->ships[2].positions[0] = createPosition(6, 5);
+    fleet->ships[2].positions[1] = createPosition(7, 5);
+    fleet->ships[2].positions[2] = createPosition(8, 5);
     fleet->ships[2].status = SET;
 
-    setPosition(&fleet->ships[3].positions[0], 7, 0);
-    setPosition(&fleet->ships[3].positions[1], 7, 1);
-    setPosition(&fleet->ships[3].positions[2], 7, 2);
+    fleet->ships[3].positions[0] = createPosition(7, 0);
+    fleet->ships[3].positions[1] = createPosition(7, 1);
+    fleet->ships[3].positions[2] = createPosition(7, 2);
     fleet->ships[3].status = SET;
 
-    setPosition(&fleet->ships[4].positions[0], 8, 8);
-    setPosition(&fleet->ships[4].positions[1], 7, 8);
+    fleet->ships[4].positions[0] = createPosition(8, 8);
+    fleet->ships[4].positions[1] = createPosition(7, 8);
     fleet->ships[4].status = SET;
   } else {
     error = 1;
