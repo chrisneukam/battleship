@@ -10,7 +10,7 @@ typedef enum _status {
 } STATUS;
 
 const int _shipLength[NUM_SHIPS] = {
-  5,
+  MAX_SHIP_SIZE,
   4,
   3,
   3,
@@ -128,6 +128,18 @@ int fleet_free(
   return error;
 }
 
+int fleet_getShipSize(
+  const SHIPTYPE shipType
+) {
+  int size = 0;
+
+  if (shipType < NUM_SHIPS) {
+    size = _shipLength[shipType];
+  }
+
+  return size;
+}
+
 int fleet_setShip(
   FLEET* fleet,
   const SHIPTYPE shipType,
@@ -148,6 +160,72 @@ int fleet_setShip(
       }
 
       fleet->ships[shipType].status = SET;
+    }
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
+int fleet_collisionDetection(
+  FLEET* fleet,
+  SHIPCOLLISION* collisionResult
+) {
+  int error = 0;
+  int ship_ref = 0;
+  int ship_cmp = 0;
+  int pos_ref = 0;
+  int pos_cmp = 0;
+
+  if ((NULL != fleet) && (NULL != collisionResult)) {
+    *collisionResult = NO_COLLISION;
+
+    for (ship_ref = 0; ship_ref < fleet->numShips; ship_ref++) {
+      for (ship_cmp = ship_ref; ship_cmp < fleet->numShips; ship_cmp++) {
+        if ((SET == fleet->ships[ship_ref].status) && (SET == fleet->ships[ship_cmp].status) && (ship_ref != ship_cmp)) {
+          for (pos_ref = 0; pos_ref < fleet->ships[ship_ref].length; pos_ref++) {
+            for (pos_cmp = 0; pos_cmp < fleet->ships[ship_cmp].length; pos_cmp++) {
+              if ((fleet->ships[ship_ref].positions[pos_ref].row == fleet->ships[ship_cmp].positions[pos_cmp].row) &&
+                  (fleet->ships[ship_ref].positions[pos_ref].column == fleet->ships[ship_cmp].positions[pos_cmp].column)) {
+                *collisionResult = COLLISION;
+              }
+            }
+          }
+        }
+      }
+    }
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
+int fleet_fractureDetection(
+  FLEET* fleet,
+  SHIPFRACTURE* fractureResult
+) {
+  int error = 0;
+  int ship = 0;
+  int pos = 0;
+  int rows[MAX_SHIP_SIZE] = {0};
+  int cols[MAX_SHIP_SIZE] = {0};
+
+  if ((NULL != fleet) && (NULL != fractureResult)) {
+    *fractureResult = NO_FRACTURE;
+
+    for (ship = 0; ship < fleet->numShips; ship++) {
+      if (SET == fleet->ships[ship].status) {
+        for (pos = 1; pos < fleet->ships[ship].length; pos++) {
+          rows[pos] = fleet->ships[ship].positions[pos].row;
+          cols[pos] = fleet->ships[ship].positions[pos].column;          
+        }
+
+        /* sort rows and cols */
+        /* if all rows are equal, cols shall be ascending or decending */
+        /* if all cols are equal, rows shall be ascending or decending */
+      }
     }
   } else {
     error = 1;

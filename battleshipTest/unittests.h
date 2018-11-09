@@ -21,11 +21,19 @@ int test_randomGen_rand(
   void
 );
 
-int test_ship_collision_FALSE(
+int test_ship_collision(
   void
 );
 
-int test_ship_collision_TRUE(
+int test_ship_no_collision(
+  void
+);
+
+int test_ship_fracture(
+  void
+);
+
+int test_ship_no_fracture(
   void
 );
 

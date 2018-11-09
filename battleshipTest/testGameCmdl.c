@@ -13,8 +13,10 @@ int main(
   error = run_test(test_ai_getShootPosition_range(), "test_ai_getShootPosition_range()");
   error = run_test(test_ai_getShootPosition_unique(), "test_ai_getShootPosition_unique()");
   error = run_test(test_randomGen_rand(), "test_randomGen_rand()");
-  error = run_test(test_ship_collision_FALSE(), "test_ship_collision_FALSE()");
-  error = run_test(test_ship_collision_TRUE(), "test_ship_collision_TRUE()");
+  error = run_test(test_ship_collision(), "test_ship_collision()");
+  error = run_test(test_ship_no_collision(), "test_ship_no_collision()");
+  error = run_test(test_ship_fracture(), "test_ship_fracture()");
+  error = run_test(test_ship_no_fracture(), "test_ship_no_fracture()");
 
   printStatistic();
 
