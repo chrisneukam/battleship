@@ -6,6 +6,68 @@
 #include "position.h"
 #include "randomGen.h"
 #include "ship.h"
+#include "util.h"
+
+int test_util_sort(
+  void
+) {
+  TESTRESULT result = OK;
+  int data[] = {2, 6, 0, 99, 6, 3, 8, 46, 5, 1};
+  int length = sizeof(data) / sizeof(data[0]);
+  int idx = 0;
+
+  if (0 == util_sort(data, length)) {
+
+    /* TEST: the elements in data shall be in ascending order */
+    for (idx = 1; idx < length; idx++) {
+      if (data[idx] < data[idx - 1]) {
+        result = FAIL;
+      }
+    }
+  } else {
+    result = FAIL;
+  }
+
+  return (int)result;
+}
+
+int test_util_array_equal(
+  void
+) {
+  TESTRESULT result = OK;
+  int data[] = {0, 0, 0, 0};
+  int length = sizeof(data) / sizeof(data[0]);
+  int allEqual = 0;
+
+  if (0 == util_array_equal(data, length, &allEqual)) {
+    if (1 != allEqual) {
+      result = FAIL;
+    }
+  } else {
+    result = FAIL;
+  }
+
+  return (int)result;
+}
+
+int test_util_array_no_equal(
+  void
+) {
+  TESTRESULT result = OK;
+  int data[] = {2, 6, 0, 99};
+  int length = sizeof(data) / sizeof(data[0]);
+  int allEqual = 0;
+
+  if (0 == util_array_equal(data, length, &allEqual)) {
+    if (0 != allEqual) {
+      result = FAIL;
+    }
+  } else {
+    result = FAIL;
+  }
+
+  return (int)result;
+}
 
 int test_position_create(
   void

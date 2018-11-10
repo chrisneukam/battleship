@@ -2,6 +2,7 @@
 #include "common.h"
 #include "position.h"
 #include "ship.h"
+#include "util.h"
 
 typedef enum _status {
   UNSET,
@@ -225,6 +226,17 @@ int fleet_fractureDetection(
         /* sort rows and cols */
         /* if all rows are equal, cols shall be ascending or decending */
         /* if all cols are equal, rows shall be ascending or decending */
+
+        if (0 == error) {
+          error = util_sort(rows, fleet->ships[ship].length);
+        }
+
+        if (0 == error) {
+          error = util_sort(cols, fleet->ships[ship].length);
+        }
+        
+
+
       }
     }
   } else {

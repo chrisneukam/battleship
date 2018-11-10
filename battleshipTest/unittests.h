@@ -1,6 +1,19 @@
 #ifndef _UNITTESTS_H_
 #define _UNITTESTS_H_
 
+int test_util_sort(
+  void
+);
+
+
+int test_util_array_equal(
+  void
+);
+
+int test_util_array_no_equal(
+  void
+);
+
 int test_position_create(
   void
 );

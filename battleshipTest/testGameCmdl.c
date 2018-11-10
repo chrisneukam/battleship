@@ -8,6 +8,9 @@ int main(
 ) {
   TESTRESULT error = 0;
 
+  error = run_test(test_util_sort(), "test_util_sort()");
+  error = run_test(test_util_array_equal(), "test_util_array_equal()");
+  error = run_test(test_util_array_no_equal(), "test_util_array_no_equal()");
   error = run_test(test_position_create(), "test_position_create()");
   error = run_test(test_randomGen_gcd(), "test_randomGen_gcd()");
   error = run_test(test_ai_getShootPosition_range(), "test_ai_getShootPosition_range()");
