@@ -73,6 +73,32 @@ static int ship_free(
   return error;
 }
 
+static int array_evaluation(
+  int* data,
+  const int length,
+  int* allEqual,
+  int* sequencial
+) {
+  int error = 0;
+
+  if ((NULL != data) && (NULL != allEqual) && (NULL != sequencial)) {
+    error |= util_sort(data,
+                       length);
+
+    error |= util_array_equal(data,
+                              length,
+                              allEqual);
+
+    error |= util_array_sequence(data,
+                                 length,
+                                 sequencial);
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
 int fleet_initialize(
   FLEET** fleet
 ) {
@@ -212,6 +238,10 @@ int fleet_fractureDetection(
   int pos = 0;
   int rows[MAX_SHIP_SIZE] = {0};
   int cols[MAX_SHIP_SIZE] = {0};
+  int row_equal = 0;
+  int col_equal = 0;
+  int row_sequencial = 0;
+  int col_sequencial = 0;
 
   if ((NULL != fleet) && (NULL != fractureResult)) {
     *fractureResult = NO_FRACTURE;
@@ -220,23 +250,23 @@ int fleet_fractureDetection(
       if (SET == fleet->ships[ship].status) {
         for (pos = 1; pos < fleet->ships[ship].length; pos++) {
           rows[pos] = fleet->ships[ship].positions[pos].row;
-          cols[pos] = fleet->ships[ship].positions[pos].column;          
+          cols[pos] = fleet->ships[ship].positions[pos].column;
         }
 
-        /* sort rows and cols */
-        /* if all rows are equal, cols shall be ascending or decending */
-        /* if all cols are equal, rows shall be ascending or decending */
+        error |= array_evaluation(rows,
+                                  fleet->ships[ship].length,
+                                  &row_equal,
+                                  &row_sequencial);
 
-        if (0 == error) {
-          error = util_sort(rows, fleet->ships[ship].length);
+        error |= array_evaluation(cols,
+                                  fleet->ships[ship].length,
+                                  &col_equal,
+                                  &col_sequencial);
+
+        if (!((1 == row_sequencial) && (1 == col_equal) || 
+              (1 == col_sequencial) && (1 == row_equal))) {
+          *fractureResult = FRACTURE;
         }
-
-        if (0 == error) {
-          error = util_sort(cols, fleet->ships[ship].length);
-        }
-        
-
-
       }
     }
   } else {

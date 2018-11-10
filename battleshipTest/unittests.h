@@ -14,6 +14,14 @@ int test_util_array_no_equal(
   void
 );
 
+int test_util_array_sequence(
+  void
+);
+
+int test_util_array_no_sequence(
+  void
+);
+
 int test_position_create(
   void
 );

@@ -12,4 +12,10 @@ int util_array_equal(
   int* allEqual
 );
 
+int util_array_sequence(
+  int* data,
+  const int length,
+  int* sequencial
+);
+
 #endif

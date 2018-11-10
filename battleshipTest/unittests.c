@@ -56,10 +56,48 @@ int test_util_array_no_equal(
   TESTRESULT result = OK;
   int data[] = {2, 6, 0, 99};
   int length = sizeof(data) / sizeof(data[0]);
-  int allEqual = 0;
+  int allEqual = 1;
 
   if (0 == util_array_equal(data, length, &allEqual)) {
     if (0 != allEqual) {
+      result = FAIL;
+    }
+  } else {
+    result = FAIL;
+  }
+
+  return (int)result;
+}
+
+int test_util_array_sequence(
+  void
+) {
+  TESTRESULT result = OK;
+  int data[] = {0, 1, 2, 3};
+  int length = sizeof(data) / sizeof(data[0]);
+  int sequencial = 0;
+
+  if (0 == util_array_sequence(data, length, &sequencial)) {
+    if (1 != sequencial) {
+      result = FAIL;
+    }
+  } else {
+    result = FAIL;
+  }
+
+  return (int)result;
+}
+
+int test_util_array_no_sequence(
+  void
+) {
+  TESTRESULT result = OK;
+  int data[] = {6, 3, 4, 2};
+  int length = sizeof(data) / sizeof(data[0]);
+  int sequencial = 1;
+
+  if (0 == util_array_sequence(data, length, &sequencial)) {
+    if (0 != sequencial) {
       result = FAIL;
     }
   } else {

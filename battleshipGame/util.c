@@ -1,5 +1,9 @@
 #include <stdlib.h>
 
+#ifndef ABS
+#define ABS(X) (((X) < 0) ? -(X) : (X))
+#endif
+
 static int swap(
   int* a,
   int* b
@@ -58,6 +62,31 @@ int util_array_equal(
     for (idx = 1; idx < length; idx++) {
       if (memory != data[idx]) {
         *allEqual = 0;
+        break;
+      }
+    }
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
+int util_array_sequence(
+  int* data,
+  const int length,
+  int* sequencial
+) {
+  int error = 0;
+  int idx = 0;
+
+  if ((NULL != data) && (NULL != sequencial)) {
+    *sequencial = 1;
+
+    for (idx = 1; idx < length; idx++) {
+      if (ABS(data[idx] - data[idx - 1]) != 1) {
+        *sequencial = 0;
+        break;
       }
     }
   } else {
