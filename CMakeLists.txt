@@ -9,6 +9,8 @@ include_directories("${PROJECT_SOURCE_DIR}/battleshipLib")
 add_library(battleshipLib
   battleshipLib/ai.c
   battleshipLib/ai.h
+  battleshipLib/battleshipLib.c
+  battleshipLib/battleshipLib.h
   battleshipLib/position.c
   battleshipLib/position.h
   battleshipLib/randomGen.c

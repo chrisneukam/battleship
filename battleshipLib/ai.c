@@ -71,9 +71,9 @@ int ai_initialize(
   int error = 0;
   AI* cpuAI_init = NULL;
 
-  cpuAI_init = (AI*)calloc(1, sizeof(AI));
-
   if (NULL != cpuAI) {
+    cpuAI_init = (AI*)calloc(1, sizeof(AI));
+
     cpuAI_init->positionMemory.memory = (POSITION*)calloc(sizeof(POSITION), NUM_POSITIONS_ON_FIELD);
     cpuAI_init->positionMemory.size = NUM_POSITIONS_ON_FIELD;
     cpuAI_init->positionMemoryPointer = 0;
