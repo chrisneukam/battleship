@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include "common.h"
 #include "ai.h"
 #include "position.h"
 #include "randomGen.h"

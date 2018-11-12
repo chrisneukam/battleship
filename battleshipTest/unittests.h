@@ -5,7 +5,6 @@ int test_util_sort(
   void
 );
 
-
 int test_util_array_equal(
   void
 );
@@ -19,6 +18,14 @@ int test_util_array_sequence(
 );
 
 int test_util_array_no_sequence(
+  void
+);
+
+int test_util_pos2str(
+  void
+);
+
+int test_util_str2pos(
   void
 );
 

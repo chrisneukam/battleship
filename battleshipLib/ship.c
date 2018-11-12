@@ -1,5 +1,4 @@
 #include <stdlib.h>
-#include "common.h"
 #include "position.h"
 #include "ship.h"
 #include "util.h"

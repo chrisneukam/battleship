@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "position.h"
 
 #ifndef ABS
 #define ABS(X) (((X) < 0) ? -(X) : (X))
@@ -88,6 +89,65 @@ int util_array_sequence(
         *sequencial = 0;
         break;
       }
+    }
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
+int util_position2string(
+  char* string,
+  const int length,
+  const POSITION position
+) {
+  int error = 0;
+  int idx = 0;
+
+  if ((NULL != string) && (length >= 2)) {
+    for (idx = 0; idx < length; idx++) {
+      string[idx] = '\0';
+    }
+
+    if ((position.row >= POSITION_MIN) && (position.row <= POSITION_MAX)) {
+      string[0] = (char)position.row + 'A';
+    } else {
+      error |= 1;
+    }
+
+    if ((position.column >= POSITION_MIN) && (position.column <= POSITION_MAX)) {
+      string[1] = (char)position.column + '1';
+    } else {
+      error |= 1;
+    }
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
+int util_string2position(
+  char* string,
+  const int length,
+  POSITION* position
+) {
+  int error = 0;
+
+  if ((NULL != string) && (NULL != position) && (length >= 2)) {
+    if ((string[0] >= 'a') && (string[0] <= 'z')) {
+      position->row = (int)(string[0] - 'a');
+    } else if ((string[0] >= 'A') && (string[0] <= 'Z')) {
+      position->row = (int)(string[0] - 'A');
+    } else {
+      error |= 1;
+    }
+
+    if ((string[1] >= '1') && (string[1] <= '9')) {
+      position->column = (int)(string[1] - '1');
+    } else {
+      error |= 1;
     }
   } else {
     error = 1;

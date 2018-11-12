@@ -13,6 +13,8 @@ int main(
   error = run_test(test_util_array_no_equal(), "test_util_array_no_equal()");
   error = run_test(test_util_array_sequence(), "test_util_array_sequence()");
   error = run_test(test_util_array_no_sequence(), "test_util_array_no_sequence()");
+  error = run_test(test_util_pos2str(), "test_util_pos2str()");
+  error = run_test(test_util_str2pos(), "test_util_str2pos()");
   error = run_test(test_position_create(), "test_position_create()");
   error = run_test(test_randomGen_gcd(), "test_randomGen_gcd()");
   error = run_test(test_ai_getShootPosition_range(), "test_ai_getShootPosition_range()");

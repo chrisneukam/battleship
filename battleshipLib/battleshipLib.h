@@ -1,32 +1,50 @@
 #ifndef _BATTLESHIPLIB_H_
 #define _BATTLESHIPLIB_H_
 
-typedef struct _battleshipEngine BATTLESHIPENGINE;
+#define BSHIP_STRINGLENGTH 3
+
+typedef struct _battleshipEngine BSHIPENGINE;
+
+typedef struct _battleshipPosition {
+  int row;
+  int column;
+} BSHIP_POSITION;
 
 typedef enum _battleshipTurn {
-  BATTLESHIP_TURN_PLAYER,
-  BATTLESHIP_TURN_CPU
-} BATTLESHIP_TURN;
+  BSHIP_TURN_PLAYER,
+  BSHIP_TURN_CPU
+} BSHIP_TURN;
 
 typedef enum _battleshipHit {
-  BATTLESHIP_HIT_NOHIT,
-  BATTLESHIP_HIT_HIT
-} BATTLESHIP_HIT;
+  BSHIP_HIT_NOHIT,
+  BSHIP_HIT_HIT
+} BSHIP_HIT;
 
 int battleshipLib_initialize(
-  BATTLESHIPENGINE** engine
+  BSHIPENGINE** engine
 );
 
 int battleshipLib_free(
-  BATTLESHIPENGINE** engine
+  BSHIPENGINE** engine
 );
 
 int battleshipLib_shoot(
-  BATTLESHIPENGINE* engine,
-  const BATTLESHIP_TURN turn,
-  BATTLESHIP_HIT* hit,
-  int* row,
-  int* column
+  BSHIPENGINE* engine,
+  const BSHIP_TURN turn,
+  BSHIP_HIT* hit,
+  BSHIP_POSITION* position
+);
+
+int battleship_pos2str(
+  char* string,
+  const int length,
+  const BSHIP_POSITION position
+);
+
+int battleship_str2pos(
+  char* string,
+  const int length,
+  BSHIP_POSITION* position
 );
 
 #endif

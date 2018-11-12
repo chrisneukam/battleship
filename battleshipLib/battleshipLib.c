@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include "battleshipLib.h"
 #include "ai.h"
-#include "common.h"
 #include "position.h"
 #include "ship.h"
+#include "util.h"
 
 struct _battleshipEngine {
   FLEET* player_fleet;
@@ -12,13 +12,13 @@ struct _battleshipEngine {
 };
 
 int battleshipLib_initialize(
-  BATTLESHIPENGINE** engine
+  BSHIPENGINE** engine
 ) {
   int error = 0;
-  BATTLESHIPENGINE* engine_init = NULL;
+  BSHIPENGINE* engine_init = NULL;
 
   if (NULL != engine) {
-    engine_init = (BATTLESHIPENGINE*)calloc(1, sizeof(BATTLESHIPENGINE));
+    engine_init = (BSHIPENGINE*)calloc(1, sizeof(BSHIPENGINE));
 
     error |= fleet_initialize(&engine_init->player_fleet);
     error |= fleet_initialize(&engine_init->cpu_fleet);
@@ -38,7 +38,7 @@ int battleshipLib_initialize(
 }
 
 int battleshipLib_free(
-  BATTLESHIPENGINE** engine
+  BSHIPENGINE** engine
 ) {
   int error = 0;
 
@@ -53,37 +53,82 @@ int battleshipLib_free(
 }
 
 int battleshipLib_shoot(
-  BATTLESHIPENGINE* engine,
-  const BATTLESHIP_TURN turn,
-  BATTLESHIP_HIT* hit,
-  int* row,
-  int* column
+  BSHIPENGINE* engine,
+  const BSHIP_TURN turn,
+  BSHIP_HIT* hit,
+  BSHIP_POSITION* position
 ) {
   int error = 0;
   int isHit = 0;
-  POSITION position = {0};
+  POSITION tmp = {0};
 
-  if ((NULL != engine) && (NULL != row) && (NULL != column)) {
-    if (BATTLESHIP_TURN_CPU == turn) {
-      error |= ai_getShootPosition(&position,
+  if ((NULL != engine) && (NULL != position)) {
+    if (BSHIP_TURN_CPU == turn) {
+      error |= ai_getShootPosition(&tmp,
                                    engine->cpu_ai);
 
-      error |= shootOnShip(position,
+      error |= shootOnShip(tmp,
                            engine->player_fleet,
                            &isHit);
     } else {
-      position = createPosition(*row,
-                                *column);
+      tmp = createPosition(position->row,
+                           position->column);
 
-      error |= shootOnShip(position,
+      error |= shootOnShip(tmp,
                            engine->cpu_fleet,
                            &isHit);
     }
 
     if (0 == error) {
-      *hit = (1 == isHit) ? BATTLESHIP_HIT_HIT : BATTLESHIP_HIT_NOHIT;
-      *row = position.row;
-      *column = position.column;
+      *hit = (1 == isHit) ? BSHIP_HIT_HIT : BSHIP_HIT_NOHIT;
+      position->row = tmp.row;
+      position->column = tmp.column;
+    }
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
+int battleship_pos2str(
+  char* string,
+  const int length,
+  const BSHIP_POSITION position
+) {
+  int error = 0;
+  POSITION tmp = {0};
+
+  if (NULL != string) {
+    tmp = createPosition(position.row,
+                         position.column);
+
+    error = util_position2string(string,
+                                 length,
+                                 tmp);
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
+int battleship_str2pos(
+  char* string,
+  const int length,
+  BSHIP_POSITION* position
+) {
+  int error = 0;
+  POSITION tmp = {0};
+
+  if ((NULL != string) && (NULL != position)) {
+    error = util_string2position(string,
+                                 length,
+                                 &tmp);
+
+    if (0 == error) {
+      position->row = tmp.row;
+      position->column = tmp.column;
     }
   } else {
     error = 1;

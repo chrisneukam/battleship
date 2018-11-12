@@ -2,7 +2,6 @@
 #include "testFramework.h"
 #include "unittests.h"
 #include "ai.h"
-#include "common.h"
 #include "position.h"
 #include "randomGen.h"
 #include "ship.h"
@@ -98,6 +97,50 @@ int test_util_array_no_sequence(
 
   if (0 == util_array_sequence(data, length, &sequencial)) {
     if (0 != sequencial) {
+      result = FAIL;
+    }
+  } else {
+    result = FAIL;
+  }
+
+  return (int)result;
+}
+
+int test_util_pos2str(
+  void
+) {
+  TESTRESULT result = OK;
+  char string[3] = {'\0'};
+  const int length = 3;
+  POSITION position = createPosition(1, 3);
+
+  /* TEST: position.row = 1 and position.column = 3 shall translate to B4 */
+  if (0 == util_position2string(string,
+                                length,
+                                position)) {
+    if (('B' != string[0]) || ('4' != string[1])) {
+      result = FAIL;
+    }
+  } else {
+    result = FAIL;
+  }
+
+  return (int)result;
+}
+
+int test_util_str2pos(
+  void
+) {
+  TESTRESULT result = OK;
+  char string[3] = {'a', '2', '\0'};
+  const int length = 3;
+  POSITION position = {0};
+
+  /* TEST: a2 and A2 shall translate to position.row = 0 and position.column = 1 */
+  if (0 == util_string2position(string,
+                                length,
+                                &position)) {
+    if ((0 != position.row) || (1 != position.column)) {
       result = FAIL;
     }
   } else {

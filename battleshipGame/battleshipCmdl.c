@@ -26,73 +26,46 @@ static void showHit(
   printf("                    .#####....####....####...##...##.\n\n");
 }
 
-static int covertInputToPosition(
-  char* string,
-  const int length,
-  int* row,
-  int* column
+static int getUserInput(
+  BSHIP_POSITION* position
 ) {
   int error = 0;
+  char buffer[BSHIP_STRINGLENGTH] = {'\0'};
 
-  if ((NULL != string) && (NULL != row) && (NULL != column) && (length >= 2)) {
-    if ((string[0] >= 'a') && (string[0] <= 'z')) {
-      *row = (int)(string[0] - 'a');
-    } else if ((string[0] >= 'A') && (string[0] <= 'Z')) {
-      *row = (int)(string[0] - 'A');
-    } else {
-      error = 1;
-    }
+  fgets(buffer, BSHIP_STRINGLENGTH, stdin);
 
-    if ((string[1] >= '1') && (string[1] <= '9')) {
-      *column = (int)(string[1] - '1');
-    }
-  } else {
-    error = 1;
-  }
-  
-  return error;
-}
-
-static int userInput(
-  int *row,
-  int *column
-) {
-  int error = 0;
-  char buffer[3] = {'\0'};
-
-  fgets(buffer, 3, stdin);
-
-  error = covertInputToPosition(buffer,
-                                2,
-                                row,
-                                column);
+  error = battleship_str2pos(buffer,
+                             BSHIP_STRINGLENGTH,
+                             position);
 
   return error;
 }
 
 static int playGame(
-  BATTLESHIPENGINE* battleshipEngine
+  BSHIPENGINE* battleshipEngine
 ) {
   int error = 0;
   int exit = 0;
-  int row = 0;
-  int column = 0;
-  BATTLESHIP_HIT isHit = BATTLESHIP_HIT_NOHIT;
+  char string[BSHIP_STRINGLENGTH] = {'\0'};
+  BSHIP_POSITION position = {0};
+  BSHIP_HIT isHit = BSHIP_HIT_NOHIT;
 
   while (0 == exit) {
     printf("\n===============================================================================\n\n");
-    printf("Player, it's your turn.\n");
+    printf("Player, it's your turn. Enter position: ");
 
-    userInput(&row,
-              &column);
+    getUserInput(&position);
 
     battleshipLib_shoot(battleshipEngine,
-                        BATTLESHIP_TURN_PLAYER,
+                        BSHIP_TURN_PLAYER,
                         &isHit,
-                        &row,
-                        &column);
+                        &position);
 
-    printf(">> You shoot in %d %d and: ", row, column);
+    battleship_pos2str(string,
+                       BSHIP_STRINGLENGTH,
+                       position);
+
+    printf(">> You shoot in %s and: ", string);
     if (0 != isHit) {
       printf("Yeah! Nice hit!\n\n");
       showHit();
@@ -101,12 +74,15 @@ static int playGame(
     }
 
     battleshipLib_shoot(battleshipEngine,
-                        BATTLESHIP_TURN_CPU,
+                        BSHIP_TURN_CPU,
                         &isHit,
-                        &row,
-                        &column);
+                        &position);
 
-    printf(">> CPU shoot in %d %d and ", row, column);
+    battleship_pos2str(string,
+                       BSHIP_STRINGLENGTH,
+                       position);
+
+    printf(">> CPU shoot in %s and ", string);
     if (0 != isHit) {
       printf("hit your ship!\n\n");
       showHit();
@@ -125,7 +101,7 @@ int main(
   char* argv[]
 ) {
   int error = 0;
-  BATTLESHIPENGINE* battleshipEngine = NULL;
+  BSHIPENGINE* battleshipEngine = NULL;
 
   showSplash();
 
