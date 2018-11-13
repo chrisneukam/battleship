@@ -1,7 +1,7 @@
 #ifndef _BATTLESHIPLIB_H_
 #define _BATTLESHIPLIB_H_
 
-#define BSHIP_STRINGLENGTH 3
+#define BSHIP_STRINGLENGTH 2
 
 typedef struct _battleshipEngine BSHIPENGINE;
 
@@ -20,6 +20,15 @@ typedef enum _battleshipHit {
   BSHIP_HIT_HIT
 } BSHIP_HIT;
 
+typedef enum _battleshipType {
+  BSHIP_CARRIER,
+  BSHIP_BATTLESHIP,
+  BSHIP_CRUISER,
+  BSHIP_SUBMARINE,
+  BSHIP_DESTROYER,
+  BSHIP_NUM_SHIPS
+} BSHIP_TYPE;
+
 int battleshipLib_initialize(
   BSHIPENGINE** engine
 );
@@ -33,6 +42,17 @@ int battleshipLib_shoot(
   const BSHIP_TURN turn,
   BSHIP_HIT* hit,
   BSHIP_POSITION* position
+);
+
+int battleship_getShipSize(
+  const BSHIP_TYPE shipType
+);
+
+int battleship_setShip(
+  BSHIPENGINE* engine,
+  const BSHIP_TYPE shipType,
+  const BSHIP_POSITION* positions,
+  const int positionLength
 );
 
 int battleship_pos2str(

@@ -91,6 +91,43 @@ int battleshipLib_shoot(
   return error;
 }
 
+int battleship_getShipSize(
+  const BSHIP_TYPE shipType
+) {
+  int size = 0;
+
+  size = fleet_getShipSize((SHIPTYPE)shipType);
+
+  return size;
+}
+
+int battleship_setShip(
+  BSHIPENGINE* engine,
+  const BSHIP_TYPE shipType,
+  const BSHIP_POSITION* positions,
+  const int positionLength
+) {
+  int error = 0;
+  int idx;
+  POSITION tmp[NUM_SHIPS] = {0};
+
+  if ((NULL != engine) && (NULL != positions) && (NUM_SHIPS >= positionLength)) {
+    for (idx = 0; idx < positionLength; idx++) {
+      tmp[idx].row = positions->row;
+      tmp[idx].column = positions->column;
+    }
+
+    error = fleet_setShip(engine->player_fleet,
+                          (SHIPTYPE)shipType,
+                          tmp,
+                          positionLength);
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
 int battleship_pos2str(
   char* string,
   const int length,
