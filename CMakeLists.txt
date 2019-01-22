@@ -4,8 +4,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project (battleship)
 
-include_directories("${PROJECT_SOURCE_DIR}/battleshipLib")
-
 add_library(battleshipLib
   battleshipLib/ai.c
   battleshipLib/ai.h
@@ -20,6 +18,7 @@ add_library(battleshipLib
   battleshipLib/util.c
   battleshipLib/util.h
 )
+target_include_directories(battleshipLib PUBLIC "${PROJECT_SOURCE_DIR}/battleshipLib")
 set_target_properties (battleshipLib PROPERTIES
   FOLDER Libraries
 )
