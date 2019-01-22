@@ -110,17 +110,29 @@ int battleship_setShip(
   int error = 0;
   int idx;
   POSITION tmp[NUM_SHIPS] = {0};
+  SHIPCOLLISION collision = NO_COLLISION;
+  SHIPFRACTURE fracture = NO_FRACTURE;
 
   if ((NULL != engine) && (NULL != positions) && (NUM_SHIPS >= positionLength)) {
     for (idx = 0; idx < positionLength; idx++) {
-      tmp[idx].row = positions->row;
-      tmp[idx].column = positions->column;
+      tmp[idx].row = positions[idx].row;
+      tmp[idx].column = positions[idx].column;
     }
 
     error = fleet_setShip(engine->player_fleet,
                           (SHIPTYPE)shipType,
                           tmp,
                           positionLength);
+
+    if (0 == error) {
+      error = fleet_collisionDetection(engine->player_fleet,
+                                       &collision);
+    }
+
+    if (0 == error) {
+      error = fleet_fractureDetection(engine->player_fleet,
+                                      &fracture);
+    }
   } else {
     error = 1;
   }

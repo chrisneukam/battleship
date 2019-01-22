@@ -30,9 +30,9 @@ static int getUserInput(
   BSHIP_POSITION* position
 ) {
   int error = 0;
-  char buffer[BSHIP_STRINGLENGTH] = {'\0'};
+  char buffer[BSHIP_STRINGLENGTH + 1] = {'\0'};
 
-  fgets(buffer, BSHIP_STRINGLENGTH, stdin);
+  fgets(buffer, BSHIP_STRINGLENGTH + 1, stdin);
 
   /* flush the input buffer in stdin until the next \n: */
   while ((getchar()) != '\n');
@@ -47,7 +47,7 @@ static int getUserInput(
 static int setupGame(
   BSHIPENGINE* battleshipEngine
 ) {
-  int error = 1;
+  int error = 0;
   int ship = 0;
   int shipLength = 0;
   int idx = 0;
@@ -59,12 +59,20 @@ static int setupGame(
     for (idx = 0; idx < shipLength; idx++) {
       printf("Enter position %d of %d of ship number %d: ", idx + 1, shipLength, ship + 1);
       error |= getUserInput(&positions[idx]);
+
+      if (error != 0) {
+        break;
+      }
     }
 
-    battleship_setShip(battleshipEngine,
-                       (BSHIP_TYPE)ship,
-                       positions,
-                       shipLength);
+    error |= battleship_setShip(battleshipEngine,
+                                (BSHIP_TYPE)ship,
+                                positions,
+                                shipLength);
+
+    if (error != 0) {
+      break;
+    }
   }
 
   return error;
@@ -75,7 +83,7 @@ static int playGame(
 ) {
   int error = 0;
   int exit = 0;
-  char string[BSHIP_STRINGLENGTH] = {'\0'};
+  char string[BSHIP_STRINGLENGTH + 1] = {'\0'};
   BSHIP_POSITION position = {0};
   BSHIP_HIT isHit = BSHIP_HIT_NOHIT;
 

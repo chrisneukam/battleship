@@ -247,7 +247,7 @@ int fleet_fractureDetection(
 
     for (ship = 0; ship < fleet->numShips; ship++) {
       if (SET == fleet->ships[ship].status) {
-        for (pos = 1; pos < fleet->ships[ship].length; pos++) {
+        for (pos = 0; pos < fleet->ships[ship].length; pos++) {
           rows[pos] = fleet->ships[ship].positions[pos].row;
           cols[pos] = fleet->ships[ship].positions[pos].column;
         }
