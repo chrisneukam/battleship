@@ -21,6 +21,7 @@ typedef struct _ship {
   SHIPTYPE type;
   POSITION* positions;
   int length;
+  int hitCnt;
   STATUS status;
 } SHIP;
 
@@ -42,6 +43,7 @@ static int ship_initialize(
     if (NULL != ship->positions) {
       ship->type = shipType;
       ship->length = shipLength;
+      ship->hitCnt = 0;
       ship->status = UNSET;
     } else {
       error = 1;
@@ -65,6 +67,22 @@ static int ship_free(
     ship->length = 0;
     ship->positions = NULL;
     ship->status = UNSET;
+  } else {
+    error = 1;
+  }
+
+  return error;
+}
+
+static int ship_sunk(
+  SHIP* ship
+) {
+  int error = 0;
+
+  if (NULL != ship) {
+    if (ship->hitCnt >= ship->length) {
+      ship->status = SUNK;
+    }
   } else {
     error = 1;
   }
@@ -329,6 +347,10 @@ int shootOnShip(
     for (shipID = 0; shipID < fleet->numShips; shipID++) {
       for (posID = 0; posID < fleet->ships[shipID].length; posID++) {
         if ((position.row == fleet->ships[shipID].positions[posID].row) && (position.column == fleet->ships[shipID].positions[posID].column)) {
+          fleet->ships[shipID].hitCnt++;
+
+          /* */
+          ship_sunk(&fleet->ships[shipID]);
           *isHit = 1;
         }
       }
